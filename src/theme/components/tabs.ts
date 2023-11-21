@@ -12,19 +12,24 @@ const tamlopsVariant = definePartsStyle((props) => {
     tab: {
       borderRadius: "lg",
       fontWeight: "semibold",
-      color: mode(`${c}.700`, `${c}.700`)(props),
+      color: mode(`white`, `${c}.700`)(props),
       _selected: {
-        bg: mode(`${c}.700`, `${c}.700`)(props),
+        bg: mode(`${c}.800`, `${c}.800`)(props),
         color: mode(`white`, `${c}.700`)(props),
       },
     },
     tabpanels: {
-      h: "calc(100vh - 186px)",
+      px: "0",
+      minH: "calc(100vh - 120px)",
+      h: "full",
     },
     tabpanel: {
       display: "flex",
+      position: "relative",
       flexDirection: "column",
       justifyContent: "space-between",
+      px: "0",
+      color: mode(`white`, `${c}.700`)(props),
       h: "full",
     },
   };
@@ -34,6 +39,13 @@ const variants = {
   tamlops: tamlopsVariant,
 };
 
-const tabs = defineMultiStyleConfig({ variants });
+const tabs = defineMultiStyleConfig({
+  defaultProps: {
+    size: "md",
+    variant: "tamlops",
+    colorScheme: "blue",
+  },
+  variants,
+});
 
 export default tabs;

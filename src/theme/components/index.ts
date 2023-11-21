@@ -1,4 +1,5 @@
 import tabs from "./tabs";
-import input from "./input";
+import textarea from "./textarea";
+import button from "./button";
 
-export { tabs, input };
+export { tabs, textarea, button };
