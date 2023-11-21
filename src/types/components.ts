@@ -16,6 +16,7 @@ export interface chatWithResponseProps {
 
 export interface chatSectionProps {
   data: chatWithResponseProps[];
+  placeholder: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
 }

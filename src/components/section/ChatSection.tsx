@@ -1,9 +1,9 @@
 import { chatSectionProps, chatWithResponseProps } from "@/types/components";
-import { Box, Button, Textarea, Flex } from "@chakra-ui/react";
+import { Box, Button, Textarea, Flex, Text, Heading } from "@chakra-ui/react";
 import { ChatWithResponse } from "../chat";
 import { useEffect, useRef } from "react";
 
-function ChatSection({ data, value, setValue }: chatSectionProps) {
+function ChatSection({ data, placeholder, value, setValue }: chatSectionProps) {
   const ref = useRef<HTMLElement>();
   const resultRef = useRef<HTMLElement>();
 
@@ -34,7 +34,7 @@ function ChatSection({ data, value, setValue }: chatSectionProps) {
       width: "6px",
     },
     "&::-webkit-scrollbar-thumb": {
-      background: "#2C5282",
+      background: "white",
       borderRadius: "24px",
     },
   };
@@ -59,25 +59,40 @@ function ChatSection({ data, value, setValue }: chatSectionProps) {
         overflowY="auto"
         css={contentScrollStyle}
       >
-        {data.map((item: chatWithResponseProps) => (
-          <ChatWithResponse key={item.id} {...item} isLoading={false} />
-        ))}
+        {data.length > 0 ? (
+          data.map((item: chatWithResponseProps) => (
+            <ChatWithResponse key={item.id} {...item} isLoading={false} />
+          ))
+        ) : (
+          <Box m="auto">
+            <Heading textAlign="center" mb="4">
+              TAMLOps - Tugas Akhir
+            </Heading>
+            <Text textAlign="center">
+              Rangkum suatu dialog atau buatlah gambar disini
+            </Text>
+          </Box>
+        )}
       </Flex>
-      <Box
+      <Flex
         bottom="8"
-        w="calc(100% - 128px)"
-        pt="4"
+        w={{ base: "calc(100% - 32px)", md: "calc(100% - 128px)" }}
+        mt="4"
         position="fixed"
         zIndex="99"
         overflowY="auto"
+        bg="white"
+        borderRadius="md"
         css={contentScrollStyle}
       >
         <Textarea
           resize="none"
           variant="tamlops"
-          placeholder="Dialog untuk dirangkum"
+          placeholder={placeholder}
           minH="56px"
           maxH="140px"
+          mr='-28'
+          pr='32'
           py="4"
           bottom="0"
           zIndex="1"
@@ -88,10 +103,10 @@ function ChatSection({ data, value, setValue }: chatSectionProps) {
           }}
           css={textAreaScrollStyle}
         />
-        <Button position="absolute" zIndex="99" right="4" bottom="2">
+        <Button alignSelf="end" zIndex="99" right="3" bottom="2">
           Rangkum
         </Button>
-      </Box>
+      </Flex>
     </>
   );
 }

@@ -7,7 +7,7 @@ import LoadingLayout from "./LoadingLayout";
 function MainLayout(props: mainLayoutProps): ReactNode {
   return (
     <Box
-      bg="linear-gradient(122deg, #121B30 6.7%, #0D3449 89.76%)"
+      bg="linear-gradient(96deg, #121B30 7.62%, #192B34 89.09%)"
       p="4"
       minH="100vh"
       {...props}

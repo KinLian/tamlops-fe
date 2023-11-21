@@ -9,38 +9,32 @@ function ChatWithResponse({
   isLoading,
 }: chatWithResponseProps) {
   return (
-    <Flex id={id} flexDirection="column" gap="4">
+    <Flex id={id} flexDirection="column" gap="4" mr="4">
       <Text
+        alignSelf="end"
         w="fit-content"
-        px="4"
-        py="2"
-        fontWeight="semibold"
-        bg="blue.600"
-        borderRadius="md"
-      >
-        Prompt: {number}
-      </Text>
-      <Text
-        w="fit-content"
-        px="4"
-        py="2"
+        px="6"
+        py="4"
         whiteSpace="pre-line"
-        bg="white"
+        bg="blue.100"
         color="black"
         borderRadius="md"
       >
         {prompt}
       </Text>
-      <Text
-        w="fit-content"
-        px="4"
-        py="2"
-        bg="white"
-        color="black"
-        borderRadius="md"
-      >
-        {isLoading ? "..." : result}
-      </Text>
+      <Flex w="fit-content" flexDirection="column" gap="2">
+        <Text>TAMLOps - Tugas Akhir</Text>
+        <Text
+          w="fit-content"
+          px="6"
+          py="4"
+          bg="white"
+          color="black"
+          borderRadius="md"
+        >
+          {isLoading ? "..." : result}
+        </Text>
+      </Flex>
     </Flex>
   );
 }
