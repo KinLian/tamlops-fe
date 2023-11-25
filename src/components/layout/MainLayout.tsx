@@ -13,7 +13,7 @@ function MainLayout(props: mainLayoutProps): ReactNode {
       {...props}
     >
       <Head>
-        <title>{props.title ?? "KukusanFinder"}</title>
+        <title>{props.title ?? "TAMLOps"}</title>
       </Head>
       {props.isLoading ? <LoadingLayout /> : <Box>{props.children}</Box>}
     </Box>

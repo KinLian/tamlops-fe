@@ -17,10 +17,11 @@ const tamlopsVariant = definePartsStyle((props) => {
         bg: mode(`${c}.800`, `${c}.800`)(props),
         color: mode(`white`, `${c}.700`)(props),
       },
+      h: "full"
     },
     tabpanels: {
       px: "0",
-      minH: "calc(100vh - 120px)",
+      minH: { base: "calc(100vh - 180px)", md: "calc(100vh - 224px)" },
       h: "full",
     },
     tabpanel: {

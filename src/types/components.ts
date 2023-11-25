@@ -19,4 +19,5 @@ export interface chatSectionProps {
   placeholder: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
+  onClick: () => void;
 }

@@ -2,11 +2,22 @@ import { MainLayout } from "@/components/layout";
 import { ChatSection } from "@/components/section";
 import { chatWithResponseProps } from "@/types/components";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
 
 export default function Home() {
   const [textToTextPrompt, setTextToTextPrompt] = useState<string>("");
   const [textToImagePrompt, setTextToImagePrompt] = useState<string>("");
+
+  function handlePost(type: "text" | "image") {
+    axios
+      .post("http://35.208.32.246:8000/inference", {
+        type: type,
+        text: type === "text" ? textToTextPrompt : textToImagePrompt,
+      })
+      .then((res) => console.log("Success"))
+      .catch((e: AxiosError) => console.log(e));
+  }
 
   const dummy: chatWithResponseProps[] = [
     {
@@ -49,11 +60,11 @@ export default function Home() {
       title="TAMLOps - Tugas Akhir"
       isLoading={false}
       px={{ base: "4", md: "16" }}
-      pt={{ base: "8", md: "16" }}
+      pt={{ base: "12", md: "16" }}
     >
       <Tabs isFitted variant="tamlops" size="md" colorScheme="blue">
         <TabList>
-          <Tab>Rangkuman dialog</Tab>
+          <Tab>Rangkum dialog</Tab>
           <Tab>Buat gambar</Tab>
         </TabList>
         <TabPanels fontSize={{ base: "sm", md: "md" }}>
@@ -63,6 +74,7 @@ export default function Home() {
               placeholder="Dialog untuk dirangkum"
               value={textToTextPrompt}
               setValue={setTextToTextPrompt}
+              onClick={() => handlePost("text")}
             />
           </TabPanel>
           <TabPanel>
@@ -71,6 +83,7 @@ export default function Home() {
               placeholder="Coba “create me an image of a cat”"
               value={textToImagePrompt}
               setValue={setTextToImagePrompt}
+              onClick={() => handlePost("image")}
             />
           </TabPanel>
         </TabPanels>

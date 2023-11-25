@@ -3,7 +3,13 @@ import { Box, Button, Textarea, Flex, Text, Heading } from "@chakra-ui/react";
 import { ChatWithResponse } from "../chat";
 import { useEffect, useRef } from "react";
 
-function ChatSection({ data, placeholder, value, setValue }: chatSectionProps) {
+function ChatSection({
+  data,
+  placeholder,
+  value,
+  setValue,
+  onClick,
+}: chatSectionProps) {
   const ref = useRef<HTMLElement>();
   const resultRef = useRef<HTMLElement>();
 
@@ -91,8 +97,8 @@ function ChatSection({ data, placeholder, value, setValue }: chatSectionProps) {
           placeholder={placeholder}
           minH="56px"
           maxH="140px"
-          mr='-28'
-          pr='32'
+          mr="-28"
+          pr="32"
           py="4"
           bottom="0"
           zIndex="1"
@@ -103,7 +109,13 @@ function ChatSection({ data, placeholder, value, setValue }: chatSectionProps) {
           }}
           css={textAreaScrollStyle}
         />
-        <Button alignSelf="end" zIndex="99" right="3" bottom="2">
+        <Button
+          alignSelf="end"
+          zIndex="99"
+          right="3"
+          bottom="2"
+          onClick={onClick}
+        >
           Rangkum
         </Button>
       </Flex>
