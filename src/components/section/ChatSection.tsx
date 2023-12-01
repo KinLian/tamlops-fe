@@ -127,6 +127,7 @@ function ChatSection({
           zIndex="99"
           right="3"
           bottom="2"
+          isDisabled={!value || data[data.length - 1].isLoading}
           onClick={onClick}
         >
           Rangkum
