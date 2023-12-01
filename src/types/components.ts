@@ -8,7 +8,6 @@ export interface mainLayoutProps extends BoxProps {
 
 export interface chatWithResponseProps {
   id: string;
-  number: number;
   prompt: string;
   result: string;
   isLoading?: boolean;

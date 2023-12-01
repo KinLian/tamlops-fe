@@ -1,7 +1,7 @@
 import { chatSectionProps, chatWithResponseProps } from "@/types/components";
 import { Box, Button, Textarea, Flex, Text, Heading } from "@chakra-ui/react";
 import { ChatWithResponse } from "../chat";
-import { useEffect, useRef } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 
 function ChatSection({
   data,
@@ -26,11 +26,24 @@ function ChatSection({
     }px)`;
   }
 
+  function handleAutoScroll(refX: MutableRefObject<HTMLElement | undefined>) {
+    if (refX && refX.current) {
+      const lastChildElement = refX.current?.lastElementChild;
+      lastChildElement?.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   useEffect(() => {
     if (ref && ref.current && resultRef && resultRef.current) {
       handleAutosizeTextarea(ref, resultRef);
     }
   }, [value]);
+
+  useEffect(() => {
+    if (ref && ref.current) {
+      handleAutoScroll(resultRef);
+    }
+  }, [data]);
 
   const contentScrollStyle = {
     "&::-webkit-scrollbar": {
@@ -67,7 +80,7 @@ function ChatSection({
       >
         {data.length > 0 ? (
           data.map((item: chatWithResponseProps) => (
-            <ChatWithResponse key={item.id} {...item} isLoading={false} />
+            <ChatWithResponse key={item.id} {...item} />
           ))
         ) : (
           <Box m="auto">
