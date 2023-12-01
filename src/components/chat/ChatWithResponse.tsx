@@ -56,7 +56,7 @@ function ChatWithResponse({
             },
           }}
         >
-          {isLoading ? "..." : result}
+          {isLoading ? "Menunggu jawaban..." : result}
         </Text>
       </Flex>
     </Flex>

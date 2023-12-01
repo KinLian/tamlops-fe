@@ -8,6 +8,9 @@ const tamlops = defineStyle((props) => {
     bg: mode(`${c}.700`, `${c}.700`)(props),
     _hover: {
       bg: mode(`${c}.800`, `${c}.800`)(props),
+      _disabled: {
+        bg: mode(`${c}.800`, `${c}.800`)(props),
+      }
     },
     _active: {
       bg: mode(`${c}.900`, `${c}.900`)(props),
