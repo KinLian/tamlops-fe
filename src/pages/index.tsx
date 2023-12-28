@@ -1,9 +1,14 @@
 import { MainLayout } from "@/components/layout";
 import { ChatSection } from "@/components/section";
-import { chatWithResponseProps } from "@/types/components";
+import {
+  chatWithResponseProps,
+  promptResponse,
+  promptType,
+} from "@/types/components";
+import { removeStartEnd } from "@/utils/stringFormatter";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import axios, { AxiosError } from "axios";
-import { MutableRefObject, useRef, useState } from "react";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { useState } from "react";
 
 export default function Home() {
   const [textToTextPrompt, setTextToTextPrompt] = useState<string>("");
@@ -14,97 +19,51 @@ export default function Home() {
     []
   );
 
-  function handlePost(type: "text" | "image") {
+  function handlePost(type: promptType) {
+    let newList: chatWithResponseProps[] = [];
+
     if (type === "text") {
       setTextToTextPrompt("");
-      const newData = {
+      const newData: chatWithResponseProps = {
         id: `Text${textMessages.length}`,
+        type: "text",
         prompt: textToTextPrompt,
         result: "",
         isLoading: true,
       };
-      const newList = [...textMessages, newData];
+      newList = [...textMessages, newData];
       setTextMessages(newList);
-
-      new Promise(function (resolve: (value: string) => void) {
-        setTimeout(() => resolve("Kamu keren banget!!"), 3000);
-      }).then((res: string) => {
-        newList[newList.length - 1] = {
-          ...newList[newList.length - 1],
-          result: res,
-          isLoading: false,
-        };
-        newList[newList.length - 1].isLoading = false;
-        setTextMessages([...newList]);
-      });
     } else {
       setTextToImagePrompt("");
-      const newData = {
+      const newData: chatWithResponseProps = {
         id: `Image${imageMessages.length}`,
+        type: "image",
         prompt: textToImagePrompt,
         result: "",
         isLoading: true,
       };
-      const newList = [...imageMessages, newData];
+      newList = [...imageMessages, newData];
       setImageMessages(newList);
-
-      new Promise(function (resolve: (value: string) => void) {
-        setTimeout(() => resolve("Kamu keren banget!!"), 3000);
-      }).then((res: string) => {
-        newList[newList.length - 1] = {
-          ...newList[newList.length - 1],
-          result: res,
-          isLoading: false,
-        };
-        newList[newList.length - 1].isLoading = false;
-        setTextMessages([...newList]);
-      });
     }
 
-    // axios
-    //   .post("http://35.208.32.246:8000/inference", {
-    //     type: type,
-    //     text: type === "text" ? textToTextPrompt : textToImagePrompt,
-    //   })
-    //   .then((res) => console.log("Success"))
-    //   .catch((e: AxiosError) => console.log(e));
+    axios
+      .post("http://34.42.105.222:8000/inference/generate", {
+        type: type,
+        text: type === "text" ? textToTextPrompt : textToImagePrompt,
+      })
+      .then((res: AxiosResponse<promptResponse, promptResponse>) => {
+        newList[newList.length - 1] = {
+          ...newList[newList.length - 1],
+          result: removeStartEnd(res.data.response),
+          isLoading: false,
+        };
+        console.log(removeStartEnd(res.data.response))
+        newList[newList.length - 1].isLoading = false;
+        if (type === "text") setTextMessages([...newList]);
+        else setImageMessages([...newList]);
+      })
+      .catch((e: AxiosError) => console.log(e));
   }
-
-  const dummy: chatWithResponseProps[] = [
-    {
-      id: "Text1",
-      prompt:
-        "Hannah: Hey, do you have Betty's number?\nAmanda: Lemme check\nHannah: <file_gif>\nAmanda: Sorry, can't find it.\nAmanda: Ask Larry\nAmanda: He called her last time we were at the park together\nHannah: I don't know him well\nHannah: <file_gif>\nAmanda: Don't be shy, he's very nice\nHannah: If you say so..\nHannah: I'd rather you texted him\nAmanda: Just text him 🙂\nHannah: Urgh.. Alright\nHannah: Bye\nAmanda: Bye bye",
-      result:
-        "Hannah needs Betty's number but Amanda doesn't have it. She needs to contact Larry.",
-      isLoading: false,
-    },
-    {
-      id: "Text2",
-      prompt:
-        "Hannah: Hey, do you have Betty's number?\nAmanda: Lemme check\nHannah: <file_gif>\nAmanda: Sorry, can't find it.\nAmanda: Ask Larry\nAmanda: He called her last time we were at the park together\nHannah: I don't know him well\nHannah: <file_gif>\nAmanda: Don't be shy, he's very nice\nHannah: If you say so..\nHannah: I'd rather you texted him\nAmanda: Just text him 🙂\nHannah: Urgh.. Alright\nHannah: Bye\nAmanda: Bye bye",
-      result:
-        "Hannah needs Betty's number but Amanda doesn't have it. She needs to contact Larry.",
-      isLoading: false,
-    },
-    {
-      id: "Text3",
-      prompt:
-        "Hannah: Hey, do you have Betty's number?\nAmanda: Lemme check\nHannah: <file_gif>\nAmanda: Sorry, can't find it.\nAmanda: Ask Larry\nAmanda: He called her last time we were at the park together\nHannah: I don't know him well\nHannah: <file_gif>\nAmanda: Don't be shy, he's very nice\nHannah: If you say so..\nHannah: I'd rather you texted him\nAmanda: Just text him 🙂\nHannah: Urgh.. Alright\nHannah: Bye\nAmanda: Bye bye",
-      result:
-        "Hannah needs Betty's number but Amanda doesn't have it. She needs to contact Larry.",
-      isLoading: false,
-    },
-    {
-      id: "Text4",
-      prompt: `Hannah: Hey, do you have Betty's number?
-      Amanda: Lemme check
-      Hannah: <file_gif>`,
-      result:
-        "Hannah needs Betty's number but Amanda doesn't have it. She needs to contact Larry.",
-      isLoading: false,
-    },
-  ];
 
   return (
     <MainLayout
@@ -121,6 +80,7 @@ export default function Home() {
         <TabPanels fontSize={{ base: "sm", md: "md" }}>
           <TabPanel>
             <ChatSection
+              type="text"
               data={textMessages}
               placeholder="Dialog untuk dirangkum"
               value={textToTextPrompt}
@@ -130,6 +90,7 @@ export default function Home() {
           </TabPanel>
           <TabPanel>
             <ChatSection
+              type="image"
               data={imageMessages}
               placeholder="Coba “create me an image of a cat”"
               value={textToImagePrompt}
