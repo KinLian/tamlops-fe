@@ -47,7 +47,7 @@ export default function Home() {
     }
 
     axios
-      .post("http://34.42.105.222:8000/inference/generate", {
+      .post("http://34.42.105.222:8000/inference/generate/", {
         type: type,
         text: type === "text" ? textToTextPrompt : textToImagePrompt,
       })

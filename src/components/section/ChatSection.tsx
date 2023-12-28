@@ -4,6 +4,7 @@ import { ChatWithResponse } from "../chat";
 import { MutableRefObject, useEffect, useRef } from "react";
 
 function ChatSection({
+  type,
   data,
   placeholder,
   value,
@@ -130,7 +131,7 @@ function ChatSection({
           isDisabled={!value || data[data.length - 1]?.isLoading}
           onClick={onClick}
         >
-          Rangkum
+          {type === "text" ? "Rangkum" : "Buat gambar"}
         </Button>
       </Flex>
     </>
