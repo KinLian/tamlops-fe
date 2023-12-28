@@ -11,6 +11,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 
 export default function Home() {
+  const [isKokomiAvailable, setIsKokomiAvailable] = useState<boolean>(false);
   const [textToTextPrompt, setTextToTextPrompt] = useState<string>("");
   const [textToImagePrompt, setTextToImagePrompt] = useState<string>("");
 
@@ -34,6 +35,16 @@ export default function Home() {
       newList = [...textMessages, newData];
       setTextMessages(newList);
     } else {
+      const kokomiNames = [
+        "kokomi",
+        "sangonomiya",
+        "watatsumi",
+        "her excellency",
+      ];
+      const promptLowerCase = textToImagePrompt.toLowerCase();
+      setIsKokomiAvailable(
+        kokomiNames.reduce((a, c) => promptLowerCase.includes(c) || a, false)
+      );
       setTextToImagePrompt("");
       const newData: chatWithResponseProps = {
         id: `Image${imageMessages.length}`,
@@ -74,8 +85,15 @@ export default function Home() {
     <MainLayout
       title="TAMLOps - Tugas Akhir"
       isLoading={false}
+      bg={
+        isKokomiAvailable
+          ? "url(/maskot.png)"
+          : "linear-gradient(96deg, #121B30 7.62%, #192B34 89.09%)"
+      }
+      bgAttachment={isKokomiAvailable ? "fixed" : "unset"}
+      bgSize={isKokomiAvailable ? "cover" : "unset"}
       px={{ base: "4", md: "16" }}
-      pt={{ base: "12", md: "16" }}
+      pt={{ base: "12", md: "8" }}
     >
       <Tabs isFitted variant="tamlops" size="md" colorScheme="blue">
         <TabList>
@@ -97,7 +115,7 @@ export default function Home() {
             <ChatSection
               type="image"
               data={imageMessages}
-              placeholder="Coba “create me an image of a cat”"
+              placeholder="Cats chilling around"
               value={textToImagePrompt}
               setValue={setTextToImagePrompt}
               onClick={() => handlePost("image")}

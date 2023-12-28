@@ -16,14 +16,14 @@ function ChatSection({
 
   function handleAutosizeTextarea(textareaRef: any, resultRef: any) {
     textareaRef.current.style.height = "0px";
-    resultRef.current.style.height = "calc(100vh - 228px)";
+    resultRef.current.style.height = "calc(100vh - 208px)";
     const scrollHeight =
       textareaRef.current.scrollHeight > 0
         ? textareaRef.current.scrollHeight
         : 56;
     textareaRef.current.style.height = scrollHeight + "px";
     resultRef.current.style.height = `calc(100vh - ${
-      scrollHeight > 142 ? 314 : scrollHeight + 172
+      scrollHeight > 142 ? 286 : scrollHeight + 144
     }px)`;
   }
 
@@ -67,6 +67,8 @@ function ChatSection({
     },
   };
 
+  const isCannotPost = !value || data[data.length - 1]?.isLoading
+
   return (
     <>
       <Flex
@@ -75,7 +77,7 @@ function ChatSection({
         zIndex="1"
         gap="4"
         flexDirection="column"
-        h="calc(100vh - 228px)"
+        h="calc(100vh - 208px)"
         overflowY="auto"
         css={contentScrollStyle}
       >
@@ -121,6 +123,9 @@ function ChatSection({
           onChange={(e) => {
             if (e.target.value !== "\n") setValue(e.target.value);
           }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey && !isCannotPost) onClick();
+          }}
           css={textAreaScrollStyle}
         />
         <Button
@@ -128,10 +133,10 @@ function ChatSection({
           zIndex="99"
           right="3"
           bottom="2"
-          isDisabled={!value || data[data.length - 1]?.isLoading}
+          isDisabled={isCannotPost}
           onClick={onClick}
         >
-          {type === "text" ? "Rangkum" : "Buat gambar"}
+          {type === "text" ? "Rangkum" : "Buatkan"}
         </Button>
       </Flex>
     </>

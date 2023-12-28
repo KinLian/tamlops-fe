@@ -65,7 +65,7 @@ function ChatWithResponse({
             as={motion.img}
             alt={id}
             src={result}
-            w="fit-content"
+            w={{ base: "fit-content", sm: "400px" }}
             px="6"
             py="4"
             bg="white"

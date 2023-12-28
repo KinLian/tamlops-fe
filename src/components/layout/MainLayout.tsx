@@ -7,14 +7,13 @@ import LoadingLayout from "./LoadingLayout";
 function MainLayout(props: mainLayoutProps): ReactNode {
   return (
     <Box
-      bg="linear-gradient(96deg, #121B30 7.62%, #192B34 89.09%)"
+      bg={props.bg ?? "linear-gradient(96deg, #121B30 7.62%, #192B34 89.09%)"}
       p="4"
       minH="100vh"
       {...props}
     >
       <Head>
         <title>{props.title ?? "TAMLOps"}</title>
-        {/* <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> */}
       </Head>
       {props.isLoading ? <LoadingLayout /> : <Box>{props.children}</Box>}
     </Box>
