@@ -47,10 +47,19 @@ export default function Home() {
     }
 
     axios
-      .post("http://34.42.105.222:8000/inference/generate/", {
-        type: type,
-        text: type === "text" ? textToTextPrompt : textToImagePrompt,
-      })
+      .post(
+        "http://34.42.105.222:8000/inference/generate/",
+        {
+          type: type,
+          text: type === "text" ? textToTextPrompt : textToImagePrompt,
+        },
+        {
+          headers: {
+            "Cache-Control": "no-cache",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
       .then((res: AxiosResponse<promptResponse, promptResponse>) => {
         newList[newList.length - 1] = {
           ...newList[newList.length - 1],
