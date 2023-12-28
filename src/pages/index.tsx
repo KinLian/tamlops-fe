@@ -93,7 +93,7 @@ export default function Home() {
       bgAttachment={isKokomiAvailable ? "fixed" : "unset"}
       bgSize={isKokomiAvailable ? "cover" : "unset"}
       px={{ base: "4", md: "16" }}
-      pt={{ base: "12", md: "8" }}
+      pt="8"
     >
       <Tabs isFitted variant="tamlops" size="md" colorScheme="blue">
         <TabList>
