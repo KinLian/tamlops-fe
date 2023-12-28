@@ -57,7 +57,6 @@ export default function Home() {
           result: removeStartEnd(res.data.response),
           isLoading: false,
         };
-        console.log(removeStartEnd(res.data.response))
         newList[newList.length - 1].isLoading = false;
         if (type === "text") setTextMessages([...newList]);
         else setImageMessages([...newList]);
