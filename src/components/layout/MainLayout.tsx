@@ -14,7 +14,7 @@ function MainLayout(props: mainLayoutProps): ReactNode {
     >
       <Head>
         <title>{props.title ?? "TAMLOps"}</title>
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        {/* <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> */}
       </Head>
       {props.isLoading ? <LoadingLayout /> : <Box>{props.children}</Box>}
     </Box>
