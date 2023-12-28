@@ -46,23 +46,21 @@ export default function Home() {
       setImageMessages(newList);
     }
 
-    fetch("http://34.42.105.222:8000/inference/generate/", {
-      method: "POST",
-      body: JSON.stringify({
-        type: type,
-        text: type === "text" ? textToTextPrompt : textToImagePrompt,
-      }),
-      headers: {
-        "Cache-Control": "no-cache",
-        "Access-Control-Allow-Origin": "*",
-      },
-      cache: "no-cache",
-    })
-      .then((res) => res.json())
-      .then((res: promptResponse) => {
+    const data = {
+      type: type,
+      text: type === "text" ? textToTextPrompt : textToImagePrompt,
+    };
+
+    axios
+      .post("/api/inference", data, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+      .then((res: AxiosResponse<promptResponse, promptResponse>) => {
         newList[newList.length - 1] = {
           ...newList[newList.length - 1],
-          result: removeStartEnd(res.response),
+          result: removeStartEnd(res.data.response),
           isLoading: false,
         };
         newList[newList.length - 1].isLoading = false;
